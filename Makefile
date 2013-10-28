@@ -4,13 +4,13 @@ CCFLAGS = -O1 -Wall -I/usr/local/include -L/usr/local/lib
 BUILDTARGET = bin/cpop
 CHECKTARGET = bin/test
 
-BUILDOBJECTS = bin/functions.o bin/mergesort.o
+BUILDOBJECTS = bin/functions.o bin/mergesort.o bin/compare.o
 CHECKOBJECTS = bin/check_functions.o bin/check_mergesort.o
 
 BUILDMAIN = bin/main.o
 CHECKMAIN = bin/check_all.o
 
-ONLYHEADERS = src/*.h
+ONLYHEADERS = src/types.h
 
 build: $(BUILDTARGET)
 
