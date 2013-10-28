@@ -6,7 +6,8 @@ typedef struct {
 } Point;
 
 typedef struct {
-  Point p,q;
+  Point *p;
+  Point *q;
   int dist;
 } Result;
 
