@@ -60,6 +60,29 @@ static Result *closest_crossing_pair(Point **y_sorted,
                                      int n)
 {
   Result *result = (Result *) malloc(sizeof(Result));
+  int n_within = 0;
+
+  int i,j;
+  for (i=0; i<n; ++i)
+    if ((double) abs(dist - y_sorted[i]->x) <= dist)
+      n_within += 1;
+
+  Point **points = (Point **) malloc(n_within * sizeof(Point *));
+  for (i=0,j=0; i<n; ++i)
+    if ((double) abs(dist - y_sorted[i]->x) <= dist)
+      points[j++] = y_sorted[i];
+
+  result->dist = DBL_MAX;
+  for (i=0; i<n_within; ++i) {
+    for (j=i+1; j<=i+7 && j<n_within; ++j) {
+      double dij = distance(points[i], points[j]);
+      if (dij <= result->dist) {
+        result->p = points[i];
+        result->q = points[j];
+        result->dist = dij;
+      }
+    }
+  }
 
   return result;
 }
