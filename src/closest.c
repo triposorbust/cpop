@@ -2,8 +2,8 @@
 #include "closest.h"
 #endif
 
-static double distance(Point *p,
-                      Point *q)
+static double _distance(Point *p,
+                        Point *q)
 {
   int dx = p->x - q->x;
   int dy = p->y - q->y;
@@ -20,7 +20,7 @@ static Result *_brute_force_closest_pair(Point **points,
   int i,j;
   for (i=0; i<n; ++i) {
     for (j=i+1; j<n; ++j) {
-      double dij = distance(points[i], points[j]);
+      double dij = _distance(points[i], points[j]);
       if (dij < result->dist) {
         result->p = points[i];
         result->q = points[j];
@@ -32,11 +32,11 @@ static Result *_brute_force_closest_pair(Point **points,
   return result;
 }
 
-static void split_points_at(Point **orig,
-                            Point **left,
-                            Point **right,
-                            int line_x,
-                            int n)
+static void _split_points_at(Point **orig,
+                             Point **left,
+                             Point **right,
+                             int line_x,
+                             int n)
 {
   int i,j,k;
   j = 0; k = 0;
@@ -46,18 +46,18 @@ static void split_points_at(Point **orig,
   }
 }
 
-static void copy(Result *src,
-                 Result *dest)
+static void _copy(Result *src,
+                  Result *dest)
 {
   dest->p = src->p;
   dest->q = src->q;
   dest->dist = src->dist;
 }
 
-static Result *closest_crossing_pair(Point **y_sorted,
-                                     int line_x,
-                                     double dist,
-                                     int n)
+static Result *_closest_crossing_pair(Point **y_sorted,
+                                      int line_x,
+                                      double dist,
+                                      int n)
 {
   Result *result = (Result *) malloc(sizeof(Result));
   int n_within = 0;
@@ -75,7 +75,7 @@ static Result *closest_crossing_pair(Point **y_sorted,
   result->dist = DBL_MAX;
   for (i=0; i<n_within; ++i) {
     for (j=i+1; j<=i+7 && j<n_within; ++j) {
-      double dij = distance(points[i], points[j]);
+      double dij = _distance(points[i], points[j]);
       if (dij <= result->dist) {
         result->p = points[i];
         result->q = points[j];
@@ -106,11 +106,11 @@ static Result *_closest_pair(Point **x_sorted,
 
   Point **x_sorted_left  = (Point **) malloc(sizeof(Point *) * n_left);
   Point **x_sorted_right = (Point **) malloc(sizeof(Point *) * n_right);
-  split_points_at(x_sorted, x_sorted_left, x_sorted_right, line_x, n);
+  _split_points_at(x_sorted, x_sorted_left, x_sorted_right, line_x, n);
 
   Point **y_sorted_left  = (Point **) malloc(sizeof(Point *) * n_left);
   Point **y_sorted_right = (Point **) malloc(sizeof(Point *) * n_right);
-  split_points_at(y_sorted, y_sorted_left, y_sorted_right, line_x, n);
+  _split_points_at(y_sorted, y_sorted_left, y_sorted_right, line_x, n);
 
   Result *left_result  = _closest_pair(x_sorted_left,  y_sorted_left,  n_left);
   Result *right_result = _closest_pair(x_sorted_right, y_sorted_right, n_right);
@@ -121,16 +121,16 @@ static Result *_closest_pair(Point **x_sorted,
   free(y_sorted_right);
 
   double dmin = MIN(left_result->dist, right_result->dist);
-  Result *mid_result = closest_crossing_pair(y_sorted, line_x, dmin, n);
+  Result *mid_result = _closest_crossing_pair(y_sorted, line_x, dmin, n);
 
   double dleft,dmid,dright;
   dmid   =   mid_result->dist;
   dleft  =  left_result->dist;
   dright = right_result->dist;
 
-  if (dleft  <= dmid  && dleft  <= dright) copy(left_result,  result);
-  if (dmid   <= dleft && dmid   <= dright) copy(mid_result,   result);
-  if (dright <= dmid  && dright <= dleft)  copy(right_result, result);
+  if (dleft  <= dmid  && dleft  <= dright) _copy(left_result,  result);
+  if (dmid   <= dleft && dmid   <= dright) _copy(mid_result,   result);
+  if (dright <= dmid  && dright <= dleft)  _copy(right_result, result);
 
   free(mid_result);
   free(left_result);
