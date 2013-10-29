@@ -3,10 +3,6 @@
 #include <stdlib.h>
 #endif
 
-#ifndef __CHECK_FUNCTIONS_H__
-#include "check_functions.h"
-#endif
-
 #ifndef __CHECK_MERGESORT_H__
 #include "check_mergesort.h"
 #endif
@@ -30,11 +26,9 @@ int main(void)
 {
   int number_failed = 0;
 
-  Suite *fs = function_suite();
   Suite *ms = mergesort_suite();
   Suite *cs = closest_suite();
 
-  number_failed += run_suite(fs);
   number_failed += run_suite(ms);
   number_failed += run_suite(cs);
 

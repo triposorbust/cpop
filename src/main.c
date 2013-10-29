@@ -13,25 +13,11 @@
 #include <time.h>
 #endif
 
-#ifndef __FUNCTIONS_H__
-#include "functions.h"
-#endif
-
 #define ULIMIT (100)
 
 int main(int argc, char **argv)
 {
-  int x,y,fres,gres;
   srand(time(NULL));
-
-  x = rand() % ULIMIT;
-  y = rand() % ULIMIT;
-
-  fres = f(x,y);
-  gres = g(x,y);
-
-  printf("f(%2d,%2d) = %2d \n", x, y, fres);
-  printf("g(%2d,%2d) = %2d \n", x, y, gres);
-
+  printf("Odelay!\n");
   return 0;
 }

@@ -1,11 +1,12 @@
 CC = gcc
 CCFLAGS = -O1 -Wall -I/usr/local/include -L/usr/local/lib
 
-BUILDTARGET = bin/cpop
+BUILDLINKNM = closest-pair
+BUILDTARGET = bin/closest-pair
 CHECKTARGET = bin/test
 
-BUILDOBJECTS = bin/functions.o bin/mergesort.o bin/compare.o bin/closest.o
-CHECKOBJECTS = bin/check_functions.o bin/check_mergesort.o bin/check_closest.o
+BUILDOBJECTS = bin/mergesort.o bin/compare.o bin/closest.o
+CHECKOBJECTS = bin/check_mergesort.o bin/check_closest.o
 
 BUILDMAIN = bin/main.o
 CHECKMAIN = bin/check_all.o
@@ -13,6 +14,7 @@ CHECKMAIN = bin/check_all.o
 ONLYHEADERS = src/types.h
 
 build: $(BUILDTARGET)
+	@ ln -s $(BUILDTARGET) $(BUILDLINKNM)
 
 check: $(CHECKTARGET)
 	@ $(CHECKTARGET)
@@ -38,3 +40,4 @@ bin/%.o: spec/%.c
 .PHONY: clean
 clean:
 	@ rm -f bin/*
+	@ rm -f $(BUILDLINKNM)

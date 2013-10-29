@@ -9,8 +9,8 @@ static void random_points(Point *points, int n)
 
   int i;
   for (i=0; i<n; ++i) {
-    points[i].x = (rand() % 500000) - 250000;
-    points[i].y = (rand() % 500000) - 250000;
+    points[i].x = (rand() % 4500000) - 2250000;
+    points[i].y = (rand() % 4500000) - 2250000;
   }
 }
 
