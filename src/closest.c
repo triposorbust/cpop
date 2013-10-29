@@ -139,25 +139,28 @@ static Result *_closest_pair(Point **x_sorted,
   return result;
 }
 
+
 Result *closest_pair(Point *points, size_t n)
 {
-  Point **x_sorted = (Point **) malloc(n * sizeof(Point *));
-  Point **y_sorted = (Point **) malloc(n * sizeof(Point *));
-  Point **temp = (Point **) malloc(n * sizeof(Point *));
+  Point **xpointers = (Point **) malloc(n * sizeof(Point *));
+  Point **ypointers = (Point **) malloc(n * sizeof(Point *));
+  Point **auxiliary = (Point **) malloc(n * sizeof(Point *));
 
-  int i;
-  for (i=0; i<n; ++i) {
-    x_sorted[i] = &points[i];
-    y_sorted[i] = &points[i];
+  int z;
+  for (z=0; z<n; ++z) {
+    xpointers[z] = &points[z];
+    ypointers[z] = &points[z];
   }
-  merge_sort(x_sorted, temp, 0, n-1, &compare_xs);
-  merge_sort(y_sorted, temp, 0, n-1, &compare_ys);
 
-  Result *result = _closest_pair(x_sorted, y_sorted, n);
+  merge_sort(xpointers, auxiliary, 0, n-1, &compare_xs);
+  merge_sort(ypointers, auxiliary, 0, n-1, &compare_ys);
 
-  free(temp);
-  free(x_sorted);
-  free(y_sorted);
+  Result *result = _closest_pair(xpointers, ypointers, n);
+
+  free(auxiliary);
+  free(xpointers);
+  free(ypointers);
+
   return result;
 }
 
