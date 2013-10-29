@@ -41,8 +41,8 @@ static void _split_points_at(Point **orig,
   int i,j,k;
   j = 0; k = 0;
   for (i=0; i<n; ++i) {
-    if (orig[i]->x <= line_x) left[j++]  = orig[i];
-    else                      right[k++] = orig[i];
+    if (orig[i]->x < line_x) left[j++]  = orig[i];
+    else                     right[k++] = orig[i];
   }
 }
 
@@ -89,7 +89,7 @@ static Result *_closest_crossing_pair(Point **y_sorted,
 
 static Result *_closest_pair(Point **x_sorted,
                              Point **y_sorted,
-                             int n)
+                             size_t n)
 {
   if (n <= 3) return _brute_force_closest_pair(x_sorted, n);
   Result *result = (Result *) malloc(sizeof(Result));
@@ -100,8 +100,8 @@ static Result *_closest_pair(Point **x_sorted,
 
   int i;
   for (i=0; i<n; ++i) {
-    if (x_sorted[i]->x <= line_x) n_left  += 1;
-    else                          n_right += 1;
+    if (x_sorted[i]->x < line_x) n_left  += 1;
+    else                         n_right += 1;
   }
 
   Point **x_sorted_left  = (Point **) malloc(sizeof(Point *) * n_left);
