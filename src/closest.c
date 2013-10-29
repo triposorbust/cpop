@@ -64,12 +64,12 @@ static Result *_closest_crossing_pair(Point **y_sorted,
 
   int i,j;
   for (i=0; i<n; ++i)
-    if ((double) abs(dist - y_sorted[i]->x) <= dist)
+    if ((double) abs(line_x - y_sorted[i]->x) <= dist)
       n_within += 1;
 
   Point **points = (Point **) malloc(n_within * sizeof(Point *));
   for (i=0,j=0; i<n; ++i)
-    if ((double) abs(dist - y_sorted[i]->x) <= dist)
+    if ((double) abs(line_x - y_sorted[i]->x) <= dist)
       points[j++] = y_sorted[i];
 
   result->dist = DBL_MAX;
@@ -142,24 +142,24 @@ static Result *_closest_pair(Point **x_sorted,
 
 Result *closest_pair(Point *points, size_t n)
 {
-  Point **xpointers = (Point **) malloc(n * sizeof(Point *));
-  Point **ypointers = (Point **) malloc(n * sizeof(Point *));
-  Point **auxiliary = (Point **) malloc(n * sizeof(Point *));
+  Point **x_sorted = (Point **) malloc(n * sizeof(Point *));
+  Point **y_sorted = (Point **) malloc(n * sizeof(Point *));
+  Point **temp = (Point **) malloc(n * sizeof(Point *));
 
   int z;
   for (z=0; z<n; ++z) {
-    xpointers[z] = &points[z];
-    ypointers[z] = &points[z];
+    x_sorted[z] = &points[z];
+    y_sorted[z] = &points[z];
   }
 
-  merge_sort(xpointers, auxiliary, 0, n-1, &compare_xs);
-  merge_sort(ypointers, auxiliary, 0, n-1, &compare_ys);
+  merge_sort(x_sorted, temp, 0, n-1, &compare_xs);
+  merge_sort(y_sorted, temp, 0, n-1, &compare_ys);
 
-  Result *result = _closest_pair(xpointers, ypointers, n);
+  Result *result = _closest_pair(x_sorted, y_sorted, n);
 
-  free(auxiliary);
-  free(xpointers);
-  free(ypointers);
+  free(temp);
+  free(x_sorted);
+  free(y_sorted);
 
   return result;
 }
