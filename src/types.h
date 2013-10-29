@@ -8,7 +8,7 @@ typedef struct {
 typedef struct {
   Point *p;
   Point *q;
-  int dist;
+  double dist;
 } Result;
 
 #endif

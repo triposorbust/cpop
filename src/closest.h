@@ -23,6 +23,13 @@
 #include <math.h>
 #endif
 
+#ifndef __FLOAT_H__
+#define __FLOAT_H__
+#include <float.h>
+#endif
+
+#define MIN(X,Y)  ((X) <= (Y) ? (X) : (Y))
+
 Result *closest_pair(Point *points, size_t n);
 void free_result(Result *);
 
