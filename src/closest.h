@@ -29,6 +29,7 @@
 #endif
 
 #define MIN(X,Y)  ((X) <= (Y) ? (X) : (Y))
+#define RESULT Result *
 
 RESULT closest_pair(Point *points, size_t n);
 void free_result(RESULT);

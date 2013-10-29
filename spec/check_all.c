@@ -11,6 +11,10 @@
 #include "check_mergesort.h"
 #endif
 
+#ifndef __CHECK_CLOSEST_H__
+#include "check_closest.h"
+#endif
+
 static int run_suite(Suite *s)
 {
   int number_failed;
@@ -28,9 +32,11 @@ int main(void)
 
   Suite *fs = function_suite();
   Suite *ms = mergesort_suite();
+  Suite *cs = closest_suite();
 
   number_failed += run_suite(fs);
   number_failed += run_suite(ms);
+  number_failed += run_suite(cs);
 
   return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }

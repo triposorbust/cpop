@@ -1,5 +1,3 @@
-#define RESULT Result *
-
 #ifndef __CLOSEST_H__
 #include "closest.h"
 #endif
